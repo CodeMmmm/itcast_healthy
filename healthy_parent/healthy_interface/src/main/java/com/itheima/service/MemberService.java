@@ -8,8 +8,6 @@ import java.util.List;
 public interface MemberService {
     /**
      * 根据月份查找会员数
-     *
-     * @param list
      * @param monthList
      * @return
      */
@@ -48,4 +46,5 @@ public interface MemberService {
      * @param id
      */
     void deleteMember(Integer id);
+
 }

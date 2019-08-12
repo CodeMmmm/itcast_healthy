@@ -8,10 +8,12 @@ import com.itheima.service.MemberService;
 import com.itheima.service.OrderService;
 import com.itheima.service.ReportService;
 import com.itheima.service.SetMealService;
+import com.itheima.utils.DateUtils;
 import net.sf.jxls.transformer.XLSTransformer;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,28 +43,41 @@ public class ReportController {
     @Reference
     private ReportService reportService;
 
-    @RequestMapping(value = "/getMemberReport",method = RequestMethod.GET)
-    public Result getMemberReport(){
+    @RequestMapping(value = "/getMemberReport")
+    public Result getMemberReport(@RequestBody Map<String,String> monthMap ) throws Exception {
+        Map<String,Object> map = new HashMap<>();
+        //获取传过来的时间区间值
+        String startMonth = monthMap.get("startMonth");
+        String endMonth = monthMap.get("endMonth");
+        List<String> monthBetween = null;
+        List<String> list = null;
         try {
-            // 先将月份放入
-            Calendar calendar = Calendar.getInstance();
-            // 将当前日历变为12个月前
-            calendar.add(Calendar.MONTH,-12);
-            List<String> monthList = new ArrayList<>();
-            for (int i=1; i<=12; i++){
-                calendar.add(Calendar.MONTH,1);
-                monthList.add(new SimpleDateFormat("yyyy-MM").format(calendar.getTime()));
+            //如果没有根据时间区间查询，则默认展示12个月
+            if (startMonth == null ||endMonth == null){
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.MONTH,-12);//获得当前日期之前12个月的日期
+                //把日期放到一个list集合里面
+                list = new ArrayList();
+                for (int i = 0; i < 12; i++) {
+                    calendar.add(Calendar.MONTH,1);
+                    list.add(new SimpleDateFormat("yyyy.MM").format(calendar.getTime()));
+                    map.put("months",list);
+                }
+            }else {
+                String format = "yyyy-MM";
+                //获取时间区间
+                monthBetween = DateUtils.getMonthBetween(startMonth,endMonth,format);
+                map.put("months",monthBetween);
+                System.out.println(monthBetween);
             }
-            Map<String,Object> map = new HashMap<>();
-            map.put("months",monthList);
-            // 再将每个月的会员数放入
-            List<Integer> monthCount = memberService.findMemberCountByMonth(monthList);
-            map.put("memberCount",monthCount);
-            System.out.println(map);
+            //根据月份查询当月会员的数量
+            List<Integer> memberCount = memberService.findMemberCountByMonth(list,monthBetween);
+            map.put("memberCount",memberCount);
+
             return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,map);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+            return new Result(false,MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
         }
     }
 

@@ -76,4 +76,6 @@ public class MessageConstant {
     public static final String UPDATE_ROLE_FAIL ="修改角色失败" ;
     public static final String NOT_SET_SETMEAL = "未选择套餐";
     public static final String ONLY_SELECT_ONESETMEAL_ONCE = "一次只能选择一个套餐";
+    public static final String QUERY_MEMBER_SUCCESS = "查询会员成功";
+    public static final String QUERY_MEMBER_FAIL = "查询会员失败";
 }
