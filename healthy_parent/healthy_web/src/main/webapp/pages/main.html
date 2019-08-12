@@ -124,6 +124,7 @@
                 if (result.flag) {
                     this.username=result.data.username;
                   this.menuList=result.data.menuList;
+                  console.log(this.menuList)
                     this.$message.success(result.message);
                 }else {
                     this.$message.error(result.message);

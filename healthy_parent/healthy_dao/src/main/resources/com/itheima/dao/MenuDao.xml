@@ -7,10 +7,11 @@
     SELECT *FROM  t_user WHERE username=#{value}
 </select>
 <select id="findmenuByUser" parameterType="int" resultType="menu">
-    SELECT m.id,m.path,m.name title,m.linkUrl,m.priority,m.icon FROM t_role_menu rm,t_menu m WHERE rm.menu_id=m.id  AND rm.role_id=#{id} AND m.level=1
+
+  SELECT m.id,m.path,m.name title,m.linkUrl,m.priority,m.icon FROM t_role_menu rm,t_menu m,t_user_role ur WHERE  rm.role_id=ur.role_id AND rm.menu_id=m.id  AND ur.user_id=#{id} AND m.level=1
 </select>
     <select id="findmenuByMenuId"  resultType="menu">
-    SELECT m.path,m.name title,m.linkUrl,m.priority,m.icon FROM t_role_menu rm,t_menu m WHERE rm.menu_id=m.id  AND rm.role_id=#{userId} AND m.parentMenuId=#{menuId}
+      SELECT m.path,m.name title,m.linkUrl,m.priority,m.icon FROM t_role_menu rm,t_menu m,t_user_role ur WHERE rm.role_id=ur.role_id AND rm.menu_id=m.id  AND ur.user_id=#{userId} AND m.parentMenuId=#{menuId}
 </select>
     <select id="findMenuPage"  resultType="Map">
     SELECT m.id,m.name title,m.linkUrl,m.path,m.priority,m.description,m.parentMenuId,m.level FROM t_menu m
