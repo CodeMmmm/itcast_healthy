@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="healthy_common-1.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/healthy_common/target/healthy_common-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

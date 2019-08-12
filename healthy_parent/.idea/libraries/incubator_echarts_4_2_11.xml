@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="incubator-echarts-4.2.11">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/healthy_web/target/healthy_web-1.0-SNAPSHOT/plugins/echarts/incubator-echarts-4.2.1.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
