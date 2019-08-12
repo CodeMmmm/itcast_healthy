@@ -1,5 +1,6 @@
 package com.itheima.dao;
 
+import com.github.pagehelper.Page;
 import com.itheima.pojo.Order;
 
 import java.util.List;
@@ -68,4 +69,10 @@ public interface OrderDao {
      */
     Integer findVisitsCountAfterDate(String thisWeekMonday);
 
+    /**
+     * 有条件的分页查询
+     * @param queryString
+     * @return
+     */
+    Page<Map> findPageByCondition(String queryString);
 }

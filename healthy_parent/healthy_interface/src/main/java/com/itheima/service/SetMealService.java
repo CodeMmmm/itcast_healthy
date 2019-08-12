@@ -41,4 +41,10 @@ public interface SetMealService {
      * @return
      */
     List<Map> findSetmealCount();
+
+    /**
+     * 查询所有套餐
+     * @return
+     */
+    List<Setmeal> findAllSetmeal();
 }

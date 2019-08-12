@@ -50,4 +50,10 @@ public interface SetMealDao {
      * @return
      */
     List<Map> findHotmeal();
+
+    /**
+     * 查询所有套餐
+     * @return
+     */
+    List<Setmeal> findAllSetmeal();
 }

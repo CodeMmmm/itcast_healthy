@@ -71,6 +71,7 @@ var validateCodeButton;
 //基于定时器实现30秒倒计时效果
 function doLoop() {
     validateCodeButton.disabled = true;//将按钮置为不可点击
+    validateCodeButton.type = 'info'
     nums--;
     if (nums > 0) {
         validateCodeButton.value = nums + '秒后重新获取';

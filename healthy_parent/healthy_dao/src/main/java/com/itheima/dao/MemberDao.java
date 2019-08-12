@@ -1,7 +1,5 @@
 package com.itheima.dao;
 
-import com.github.pagehelper.Page;
-import com.itheima.pojo.CheckItem;
 import com.itheima.pojo.Member;
 
 public interface MemberDao {
@@ -47,29 +45,4 @@ public interface MemberDao {
 
     public Integer findMemberCountBeforeDate(String date);
 
-    /**
-     * 分页查询会员
-     * @param queryString
-     * @return
-     */
-    Page<Member> findByCondition(String queryString);
-
-    /**
-     * 根据id查询会员
-     * @param id
-     * @return
-     */
-    Member findItemById(Integer id);
-
-    /**
-     * 更新会员信息
-     * @param member
-     */
-    void update(Member member);
-
-    /**
-     * 删除会员
-     * @param id
-     */
-    void deleteMember(Integer id);
 }

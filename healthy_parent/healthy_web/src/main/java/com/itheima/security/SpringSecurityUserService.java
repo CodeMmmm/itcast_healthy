@@ -21,26 +21,28 @@ public class SpringSecurityUserService implements UserDetailsService{
     @Reference
     private UserService userService;
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 根据用户名查找出用户，同时查出对应的角色和权限
-        User user = userService.findByUsername(username);
-        List<GrantedAuthority> list = new ArrayList<>();
-        if (user != null){
-            Set<Role> roles = user.getRoles();
-            if (roles != null && roles.size()>0){
-                for (Role role : roles) {
-                    list.add(new SimpleGrantedAuthority(role.getKeyword()));
-                    Set<Permission> permissions = role.getPermissions();
-                    if(permissions != null && permissions.size()>0){
-                        for (Permission permission : permissions) {
-                            list.add(new SimpleGrantedAuthority(permission.getKeyword()));
-                        }
-                    }
-                }
-            }
-            return new org.springframework.security.core.userdetails.User(username,user.getPassword(),list);
+        //1.调用业务, 根据用户名查询
+        User user  =  userService.findUserByUsername(username);
+        if(user == null){
+            return null;
         }
-        return null;
+
+        //2.进行授权
+        List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
+
+        Set<Role> roles = user.getRoles();
+        for (Role role : roles) {
+            Set<Permission> permissions = role.getPermissions();
+            for (Permission permission : permissions) {
+                grantedAuthorityList.add(new SimpleGrantedAuthority(permission.getKeyword()));
+            }
+        }
+        //3.创建UserDetails对象返回
+
+        org.springframework.security.core.userdetails.User userDetail = new org.springframework.security.core.userdetails.User(username, user.getPassword(), grantedAuthorityList);
+        return userDetail;
     }
 }

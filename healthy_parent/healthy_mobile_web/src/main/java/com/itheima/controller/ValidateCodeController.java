@@ -18,7 +18,7 @@ public class ValidateCodeController {
     /**
      * 预约发送验证码
      */
-    @RequestMapping(value = "/send4Order",method = RequestMethod.POST)
+    @RequestMapping(value = "/0",method = RequestMethod.POST)
     public Result send4Order(String telephone){
         try {
             validateCodeService.send4Order(telephone);

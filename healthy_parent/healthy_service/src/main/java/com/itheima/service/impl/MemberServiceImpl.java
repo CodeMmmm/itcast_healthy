@@ -1,18 +1,11 @@
 package com.itheima.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.itheima.dao.MemberDao;
-import com.itheima.entity.PageResult;
-import com.itheima.pojo.CheckItem;
-import com.itheima.pojo.Member;
 import com.itheima.service.MemberService;
-import com.itheima.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -48,59 +41,5 @@ public class MemberServiceImpl implements MemberService{
         }
         return monthCount;
 
-    }
-
-    /**
-     * 分页查询检查项
-     * @param currentPage
-     * @param pageSize
-     * @param queryString
-     * @return
-     */
-    @Override
-    public PageResult findPage(Integer currentPage, Integer pageSize, String queryString) {
-        PageHelper.startPage(currentPage,pageSize);
-        Page<Member> page = memberDao.findByCondition(queryString);
-        return new PageResult(page.getTotal(),page.getResult());
-    }
-
-    /**
-     * 新增会员
-     * @param member
-     */
-    @Override
-    public void add(Member member) {
-        //获得当前日期
-        Date regTime = new Date();
-        member.setRegTime(regTime);
-        memberDao.add(member);
-    }
-
-    /**
-     * 根据id查询会员
-     * @param id
-     * @return
-     */
-    @Override
-    public Member findItemById(Integer id) {
-        return memberDao.findItemById(id);
-    }
-
-    /**
-     * 更新会员信息
-     * @param member
-     */
-    @Override
-    public void update(Member member) {
-        memberDao.update(member);
-    }
-
-    /**
-     * 删除会员
-     * @param id
-     */
-    @Override
-    public void deleteMember(Integer id) {
-        memberDao.deleteMember(id);
     }
 }

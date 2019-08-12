@@ -17,13 +17,22 @@
 
     <!-- 注册自定义Job -->
     <!--<bean id="deleteImg" class="com.itheima.jobs.DeleteImg"></bean>-->
-    <!-- 注册JobDetail,作用是负责通过反射调用指定的Job -->
+    <!-- 注册JobDetail,作用是负责通过反射调用指定的Job,清理redis -->
     <bean id="jobDetail"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <!-- 注入目标对象 -->
         <property name="targetObject" ref="deleteImg"/>
         <!-- 注入目标方法 -->
         <property name="targetMethod" value="deleteRubbish"/>
+    </bean>
+
+    <!-- 注册JobDetail,作用是负责通过反射调用指定的Job ，清理过时预约设置-->
+    <bean id="jobDetail1"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 注入目标对象 -->
+        <property name="targetObject" ref="clearOrdersetting"/>
+        <!-- 注入目标方法 -->
+        <property name="targetMethod" value="clearOldOrdersetting"/>
     </bean>
     <!-- 注册一个触发器，指定任务触发的时间 -->
     <bean id="myTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
@@ -34,12 +43,23 @@
             <value>0/10 * * * * ?</value>
         </property>
     </bean>
+
+    <!-- 注册一个触发器，指定任务触发的时间 -->
+    <bean id="myTrigger2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 注入JobDetail -->
+        <property name="jobDetail" ref="jobDetail1"/>
+        <!-- 指定触发的时间，基于Cron表达式 -->
+        <property name="cronExpression">
+            <value>0 00 02 L * ?</value>
+        </property>
+    </bean>
     <!-- 注册一个统一的调度工厂，通过这个调度工厂调度任务 -->
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <!-- 注入多个触发器 -->
         <property name="triggers">
             <list>
                 <ref bean="myTrigger"/>
+                <ref bean="myTrigger2"/>
             </list>
         </property>
     </bean>

@@ -71,6 +71,15 @@ public class OrederSettingServiceImpl implements OrderSettingService{
     }
 
     /**
+     * 清理过时预约数据
+     * @param firstDay4ThisMonth
+     */
+    @Override
+    public void clearOldOrdersetting(String firstDay4ThisMonth) {
+        orderSettingDao.clearOldOrdersetting(firstDay4ThisMonth);
+    }
+
+    /**
      * 设置预约
      * @param orderSetting
      */

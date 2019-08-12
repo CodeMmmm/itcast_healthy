@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itheima.dao.PermissionDao">
-    <!--根据角色id查找权限-->
-    <select id="findPerByRoleId" parameterType="integer" resultType="permission">
-        select p.* from t_permission p,t_role_permission rp where p.id = rp.permission_id and rp.role_id = #{roleId}
+    <select id="findPermissionsByRoleId" parameterType="int" resultType="Permission">
+       SELECT p.* FROM t_role_permission rp,t_permission p WHERE  rp.permission_id=p.id AND rp.role_id=#{roleId}
+    </select>
+    <select id="checkPage" parameterType="string" resultType="Permission">
+        select*FROM t_Permission
+        <if test="value != null and value.length > 0">
+            WHERE name=#{value}
+        </if>
+    </select>
+    <insert id="addPermission"  parameterType="Permission">
+        insert INTO  t_Permission VALUES(null,#{name},#{keyword},#{description})
+    </insert>
+    <select id="findoneByid" parameterType="int" resultType="Permission">
+        select*FROM t_Permission WHERE id=#{id}
+    </select>
+    <update id="editPermission" parameterType="Permission">
+        UPDATE t_Permission
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="keyword != null">
+                keyword = #{keyword},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deletePermission" parameterType="int" >
+        DELETE FROM  t_Permission WHERE id=#{id}
+    </delete>
+    <select id="findPermissionAll"  resultType="Permission">
+        select*FROM t_Permission
     </select>
 </mapper>

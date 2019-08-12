@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itheima.dao.UserDao">
-    <!--根据用户名查找用户-->
-    <select id="findUserByUsername" parameterType="string" resultType="user">
-        SELECT * FROM t_user WHERE username = #{username}
+    <select id="findUserByUserName" parameterType="string" resultType="user">
+        SELECT *FROM t_user WHERE username=#{value}
     </select>
+    <select id="findUserByCondition" parameterType="string" resultType="user">
+        select*FROM t_user
+        <if test="value != null and value.length > 0">
+            WHERE username=#{value} OR id=#{value}
+        </if>
+
+    </select>
+    <insert id="addUser" parameterType="user" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO  t_user(birthday,gender,username,password,remark,station,telephone) VALUES(#{birthday},#{gender},#{username},#{password},#{remark},#{station},#{telephone})
+    </insert>
+    <insert id="addUserAndRole">
+        INSERT INTO  t_user_role(user_id,role_id) VALUES(#{userId},#{roleId})
+    </insert>
+    <select id="findoneUser" parameterType="int" resultType="user">
+        SELECT *FROM t_user WHERE id=#{id}
+    </select>
+    <update id="updateUser" parameterType="user">
+        UPDATE t_user SET birthday=#{birthday},gender=#{gender},remark=#{remark},station=#{station},telephone=#{telephone} WHERE  id=#{id}
+    </update>
+    <delete id="deleteUserAndRole" parameterType="int" >
+      DELETE from t_user_role WHERE  user_id=#{id}
+    </delete>
+    <delete id="deleteUserById" parameterType="int" >
+      DELETE from t_user WHERE  id=#{id}
+    </delete>
+
 </mapper>

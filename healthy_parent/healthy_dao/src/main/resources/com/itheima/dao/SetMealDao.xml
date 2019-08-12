@@ -63,4 +63,9 @@
         SELECT s.name, COUNT(o.id) setmeal_count,(COUNT(o.id)/(SELECT COUNT(*) FROM t_order)) proportion,s.`remark` FROM t_order o, t_setmeal s
 WHERE o.setmeal_id = s.id GROUP BY s.id ORDER BY setmeal_count DESC LIMIT 0,4
     </select>
+
+    <!--查询所有套餐-->
+    <select id="findAllSetmeal" resultType="setmeal">
+        SELECT * FROM t_setmeal
+    </select>
 </mapper>

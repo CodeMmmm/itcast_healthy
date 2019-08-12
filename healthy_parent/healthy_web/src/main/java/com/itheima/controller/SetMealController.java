@@ -85,4 +85,19 @@ public class SetMealController {
             return new Result(false, MessageConstant.QUERY_SETMEALLIST_FAIL);
         }
     }
+
+    /**
+     * 查询所有套餐
+     * @return
+     */
+    @RequestMapping(value = "/findAllSetmeal",method = RequestMethod.GET)
+    public Result findAllSetmeal(){
+        try {
+            List<Setmeal> list = setMealService.findAllSetmeal();
+            return new Result(true,MessageConstant.QUERY_SETMEALLIST_SUCCESS,list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.QUERY_SETMEALLIST_FAIL);
+        }
+    }
 }

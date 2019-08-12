@@ -32,4 +32,9 @@
         UPDATE t_ordersetting SET reservations = #{reservations} WHERE id = #{id}
     </update>
 
+    <!--清理过时预约数据-->
+    <delete id="clearOldOrdersetting" parameterType="string">
+        DELETE FROM t_ordersetting WHERE orderDate &lt; #{date}
+    </delete>
+
 </mapper>

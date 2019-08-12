@@ -36,6 +36,12 @@ public class OrderSettingController {
         try {
             // 将得到的List<String[]>转为List<Ordersetting>
             List<String[]> strings = POIUtils.readExcel(excelFile);
+            System.out.println("================================");
+            System.out.println("================================");
+            System.out.println("================================");
+            System.out.println("================================");
+            System.out.println("================================");
+            System.out.println(strings);
             if(strings != null && strings.size() > 0){
                 List<OrderSetting> orderSettings = new ArrayList<>();
                 for (String[] strArr : strings) {

@@ -88,4 +88,13 @@
     <select id="findVisitsCountAfterDate" parameterType="string" resultType="int">
         select count(id) from t_order where orderDate &gt;= #{value} and orderStatus = '已到诊'
     </select>
+
+    <!--有条件的分页查询-->
+    <select id="findPageByCondition" parameterType="string" resultType="map">
+        SELECT m.`name` name,m.`sex` sex,m.`phoneNumber`,s.`name` setmeal,o.`orderDate` orderDate,o.`orderType` orderType,o.`orderStatus`
+        FROM t_order o, t_member m ,t_setmeal s WHERE o.`member_id` = m.`id` AND o.`setmeal_id` =  s.`id`
+        <if test="value != null and value.length > 0">
+            AND m.name = #{value}
+        </if>
+    </select>
 </mapper>

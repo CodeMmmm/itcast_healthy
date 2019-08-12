@@ -111,6 +111,15 @@ public class SetMealServiceImpl implements SetMealService{
     }
 
     /**
+     * 查询所有套餐
+     * @return
+     */
+    @Override
+    public List<Setmeal> findAllSetmeal() {
+        return setMealDao.findAllSetmeal();
+    }
+
+    /**
      * 中间表新增记录
      * @param id
      * @param checkgroupIds

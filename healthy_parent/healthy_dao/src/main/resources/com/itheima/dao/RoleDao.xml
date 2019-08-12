@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itheima.dao.RoleDao">
-    <!--根据用户id查找角色-->
-    <select id="findRoleByUserId" parameterType="integer" resultType="role">
-        select r.* from t_role r,t_user_role ur where r.id = ur.role_id and ur.user_id = #{userId}
+    <select id="findRoleByUserId" parameterType="int" resultType="role">
+       SELECT r.* FROM t_role r,t_user_role ur  WHERE r.id=ur.role_id AND ur.user_id=#{userId}
+    </select>
+    <select id="findRolesIdByUserId" parameterType="int" resultType="int">
+       SELECT role_id FROM  t_user_role   WHERE  user_id=#{userId}
+    </select>
+    <select id="findRole" parameterType="String" resultType="role">
+        select*FROM t_role
+        <if test="value != null and value.length > 0">
+            WHERE name=#{value}
+        </if>
+    </select>
+    <insert id="addRole" parameterType="role" useGeneratedKeys="true" keyColumn="id"  keyProperty="id">
+        INSERT INTO t_role(name,keyword,description) VALUES (#{name},#{keyword},#{description})
+    </insert>
+    <insert id="addRoleAndpermission" >
+        INSERT INTO t_role_permission(role_id,permission_id) VALUES (#{roleid},#{permissionid})
+    </insert>
+    <select id="findoneRole" parameterType="int" resultType="role">
+        SELECT * FROM t_role   WHERE id=#{roleId}
+    </select>
+    <select id="roleAndPermissionByRoleId" parameterType="int" resultType="int">
+        SELECT permission_id FROM t_role_permission   WHERE role_id=#{roleId}
+    </select>
+    <update id="updateByRole" parameterType="role">
+        UPDATE t_role set name=#{name},keyword=#{keyword},description=#{description} where id=#{id}
+    </update>
+    <delete id="deleteroleAndPermissionByRoleId" parameterType="int">
+        delete from  t_role_permission WHERE role_id=#{id}
+    </delete>
+    <delete id="delete" parameterType="int">
+        delete from  t_role WHERE id=#{id}
+    </delete>
+    <select id="roleAndMenuByRoleId" parameterType="int" resultType="int">
+        SELECT rm.menu_id FROM t_role_menu rm,t_role r,t_menu m WHERE rm.role_id=r.id AND rm.menu_id=m.id AND role_id=#{id} AND m.level=2
+    </select>
+    <insert id="addRoleAndMenu" >
+        INSERT INTO t_role_menu(role_id,menu_id) VALUES (#{roleid},#{menuid})
+    </insert>
+    <delete id="deleteroleAndMenuByRoleId" parameterType="int">
+        delete from  t_role_menu WHERE role_id=#{id}
+    </delete>
+    <select id="findRolesAll"  resultType="role">
+        select*FROM t_role
     </select>
 </mapper>
