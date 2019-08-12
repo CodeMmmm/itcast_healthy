@@ -54,7 +54,7 @@
     <select id="findByCondition" parameterType="string" resultType="member">
         SELECT * FROM t_member
         <if test="value != null and value.length > 0">
-            WHERE code = #{value} OR name = #{value}
+            WHERE phoneNumber like "%"#{value}"%" OR name like "%"#{value}"%"
         </if>
     </select>
     <!--根据id查询会员-->
