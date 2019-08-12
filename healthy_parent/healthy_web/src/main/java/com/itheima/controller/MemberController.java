@@ -19,6 +19,7 @@ public class MemberController {
     @Reference
     private MemberService memberService;
 
+
     /**
      * 添加会员
      * @param member
