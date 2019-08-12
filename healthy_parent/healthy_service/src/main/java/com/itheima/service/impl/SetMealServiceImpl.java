@@ -49,7 +49,7 @@ public class SetMealServiceImpl implements SetMealService{
     public void add(List<Integer> checkgroupIds, Setmeal setmeal) {
         // 先新增setmeal记录，返回自增主键
         setMealDao.add(setmeal);
-            jedisPool.getResource().srem(RedisConstant.setmeal_List);
+            jedisPool.getResource().del(RedisConstant.setmeal_List);
         if(checkgroupIds != null && checkgroupIds.size() > 0){
             // 再向中间表添加记录
             this.setSetmealAndCheckGroup(setmeal.getId(),checkgroupIds);
