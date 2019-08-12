@@ -209,4 +209,52 @@ public class ReportController {
             return new Result(false,MessageConstant.GET_BUSINESS_REPORT_FAIL);
         }
     }
+    @RequestMapping("/getSexReport")
+    public Result getSexReport() {
+        try {
+            Map<String, Object> resmap = new HashMap<>();
+            List<Map> list = memberService.getSex();
+            List<String> sexName = new ArrayList<>();
+            sexName.add("男");
+            sexName.add("女");
+            for (Map map : list) {
+                if ("1".equals(map.get("name"))) {
+                    map.put("name", "男");
+                }
+                if ("2".equals(map.get("name"))) {
+                    map.put("name", "女");
+                }
+            }
+            resmap.put("sexNames", sexName);
+            resmap.put("sexCount", list);
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, resmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL, e.getMessage());
+        }
+    }
+
+    @RequestMapping("/getAgeReport")
+    public Result getAgeReport() {
+        try {
+            Map<String, Object> resmap = new HashMap<>();
+            Map map = memberService.findBrithday();
+            List<Map> listt = new ArrayList<>();
+            List<String> list = new ArrayList<>();
+            for (Object o : map.keySet()) {
+                list.add(o.toString());
+                Map mapP = new HashMap();
+                mapP.put("name",o.toString());
+                mapP.put("value",map.get(o.toString()));
+                listt.add(mapP);
+
+            }
+            resmap.put("ageNames", list);
+            resmap.put("memberCount", listt);
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, resmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL, e.getMessage());
+        }
+    }
 }

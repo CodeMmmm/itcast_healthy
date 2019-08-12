@@ -9,9 +9,8 @@ import com.itheima.pojo.Member;
 import com.itheima.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -97,6 +96,39 @@ public class MemberServiceImpl implements MemberService{
      */
     @Override
     public void deleteMember(Integer id) {
+
         memberDao.deleteMember(id);
+    }
+    @Override
+    public List<Map> getSex() {
+        List<Map> list = memberDao.getSex();
+        return list;
+    }
+
+    @Override
+    public Map<String, Integer> findBrithday() throws Exception {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, -18);
+        // 0-18、18-30、30-45、45以上）
+        //18
+        String format18 = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
+        //18-30、
+        cal.add(Calendar.YEAR, -12);
+        String format30 = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
+        //30-45
+        cal.add(Calendar.YEAR, -15);
+        String format45 = new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime());
+        Integer brithday = memberDao.findBrithday(format18, null);//0-18
+        Integer brithday1 = memberDao.findBrithday(format30, format18);//18-30
+        Integer brithday2 = memberDao.findBrithday(format45, format30);//30-45
+        Integer brithday3 = memberDao.findBrithday(null, format45);//45
+
+        Map<String, Integer> map = new HashMap<>();
+        map.put("0-18岁", brithday);
+        map.put("18-30岁", brithday1);
+        map.put("30-45岁", brithday2);
+        map.put("45岁以上", brithday3);
+        return map;
+
     }
 }

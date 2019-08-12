@@ -4,6 +4,7 @@ import com.itheima.entity.PageResult;
 import com.itheima.pojo.Member;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MemberService {
     /**
@@ -47,4 +48,7 @@ public interface MemberService {
      */
     void deleteMember(Integer id);
 
+    List<Map> getSex();
+
+    Map<String, Integer> findBrithday() throws Exception;
 }

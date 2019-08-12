@@ -2,6 +2,10 @@ package com.itheima.dao;
 
 import com.github.pagehelper.Page;
 import com.itheima.pojo.Member;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface MemberDao {
     /**
@@ -71,4 +75,8 @@ public interface MemberDao {
      * @param id
      */
     void deleteMember(Integer id);
+
+    List<Map> getSex();
+
+    Integer findBrithday(@Param("first") String first, @Param("second") String second);
 }

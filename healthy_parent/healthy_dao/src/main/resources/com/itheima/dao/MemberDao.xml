@@ -106,4 +106,32 @@
             id = #{id}
         </where>
     </update>
+
+    <select id="getSex" resultType="map">
+        SELECT
+        sex name,
+        COUNT(sex) value
+        FROM
+        t_member
+        GROUP BY
+        sex
+    </select>
+
+    <select id="findBrithday" resultType="int">
+
+        SELECT
+        COUNT(*)
+        FROM
+        t_member
+        <where>
+            <if test="first!= null">
+                birthday > #{first}
+            </if>
+
+            <if test="second!= null">
+                and birthday  &lt;= #{second}
+            </if>
+        </where>
+    </select>
+
 </mapper>
